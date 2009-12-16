@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedFusion.Web", "Source\ManagedFusion.Web.csproj", "{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedFusion", "..\ManagedFusion\Source\ManagedFusion.csproj", "{92F1B19A-91D8-4F24-99D8-40042F86855D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://team.managedfusion.com/
+		SccProjectUniqueName0 = Source\\ManagedFusion.Web.csproj
+		SccProjectName0 = Source
+		SccAuxPath0 = https://team.managedfusion.com
+		SccLocalPath0 = Source
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = ..\\ManagedFusion\\Source\\ManagedFusion.csproj
+		SccProjectName1 = ../ManagedFusion/Source
+		SccAuxPath1 = https://team.managedfusion.com
+		SccLocalPath1 = ..\\ManagedFusion\\Source
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92F1B19A-91D8-4F24-99D8-40042F86855D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92F1B19A-91D8-4F24-99D8-40042F86855D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92F1B19A-91D8-4F24-99D8-40042F86855D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92F1B19A-91D8-4F24-99D8-40042F86855D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
