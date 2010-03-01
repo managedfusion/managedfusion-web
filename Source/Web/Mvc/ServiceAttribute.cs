@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web;
+using System.Net;
 
 namespace ManagedFusion.Web.Mvc
 {
@@ -18,9 +20,26 @@ namespace ManagedFusion.Web.Mvc
 		{
 			Order = 0;
 			OnlyRespondToAjaxRequests = false;
+			ErrorResult = null;
 		}
 
 		public bool OnlyRespondToAjaxRequests { get; set; }
+
+		private Type _errorResult;
+		public Type ErrorResult
+		{
+			get
+			{
+				return _errorResult;
+			}
+			set
+			{
+				if (value != null && value.GetInterface("ISerializableErrorResult", false) == null)
+					throw new ArgumentException("ErrorResult must be a type with interface ISerializableActionResult.");
+
+				_errorResult = value;
+			}
+		}
 
 		/// <summary>
 		/// 
@@ -82,13 +101,28 @@ namespace ManagedFusion.Web.Mvc
 			// set the value in the route data so it can be used in the methods
 			filterContext.RouteData.Values.Add("responseType", responseType);
 		}
-
+		
 		/// <summary>
 		/// Called when [action executed].
 		/// </summary>
 		/// <param name="filterContext">The filter context.</param>
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
+			if (filterContext != null && filterContext.Exception != null && ErrorResult != null)
+			{
+				ISerializableErrorResult result = Activator.CreateInstance(ErrorResult) as ISerializableErrorResult;
+				result.Error = filterContext.Exception.ToString();
+
+				if (filterContext.Exception is HttpException)
+				{
+					result.StatusCode = (filterContext.Exception as HttpException).GetHttpCode();
+					result.StatusDescription = ((HttpStatusCode)result.StatusCode).ToString().FromPascalCase();
+				}
+
+				filterContext.Result = result as ActionResult;
+				filterContext.ExceptionHandled = true;
+			}
+			
 			if (filterContext.Result is ViewResult)
 			{
 				ViewResult result = filterContext.Result as ViewResult;

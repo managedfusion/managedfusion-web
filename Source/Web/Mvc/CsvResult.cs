@@ -13,7 +13,7 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public CsvResult()
 		{
-			ContentType = "text/csv";
+			ContentType = "application/csv";
 		}
 
 		/// <summary>

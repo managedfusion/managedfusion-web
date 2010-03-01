@@ -119,33 +119,39 @@ namespace ManagedFusion.Web.Mvc
 			}
 
 			string action = context.RouteData.GetRequiredString("action");
+			HttpRequestBase request = context.HttpContext.Request;
 			HttpResponseBase response = context.HttpContext.Response;
+			response.ClearHeaders();
+			response.ClearContent();
 
 			if (!String.IsNullOrEmpty(ContentType))
-			{
 				response.ContentType = ContentType;
-			}
 
 			if (ContentEncoding != null)
-			{
 				response.ContentEncoding = ContentEncoding;
-			}
 
-			response.Cache.SetCacheability(HttpCacheability.NoCache);
-			response.Cache.AppendCacheExtension("no-cache=\"Set-Cookie\", proxy-revalidate");
+			response.Cache.SetExpires(DateTime.Today.AddDays(-1D));
 			response.AppendHeader("X-Robots-Tag", "noindex, follow, noarchive, nosnippet");
 			response.AppendHeader("Content-Disposition", String.Format("inline; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
-			response.ClearContent();
+
+			if (!request.IsSecureConnection)
+			{
+				response.Cache.SetCacheability(HttpCacheability.NoCache);
+				response.AppendHeader("Pragma", "no-cache");
+				response.AppendHeader("Cache-Control", "private, no-cache, must-revalidate, no-store, pre-check=0, post-check=0, max-stale=0");
+			}
 
 			if (Data != null)
 			{
 				string content = GetContent();
 
 				if (content != null)
+				{
+					response.AppendHeader("Content-Length", content.Length.ToString());
 					response.Write(content);
+				}
 			}
 
-			response.Flush();
 			response.End();
 		}
 	}

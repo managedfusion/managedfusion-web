@@ -45,8 +45,10 @@ namespace ManagedFusion.Web.Mvc
 			response.StatusDescription = "Unauthorized";
 			response.AppendHeader("WWW-Authenticate", "Basic realm=\"" + Realm + "\"");
 			response.ContentType = "text/html";
+
 			response.Write("<html><head><title>Unauthorized</title></head><h1>Unauthorized</h1></html>");
-			response.Flush();
+
+			response.Flush(); // TODO: remove this when you figure out a way to get around forms
 			response.End();
 		}
 	}
