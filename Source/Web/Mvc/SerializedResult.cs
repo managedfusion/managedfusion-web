@@ -24,6 +24,7 @@ namespace ManagedFusion.Web.Mvc
 			ContentEncoding = Encoding.UTF8;
 			ContentType = "text/xml";
 			SerializePublicMembers = true;
+			UseFrameworkIgnores = true;
 		}
 
 		/// <summary>
@@ -63,6 +64,15 @@ namespace ManagedFusion.Web.Mvc
 		/// 	<see langword="true"/> if [serialize public members]; otherwise, <see langword="false"/>.
 		/// </value>
 		public bool SerializePublicMembers
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool UseFrameworkIgnores
 		{
 			get;
 			set;

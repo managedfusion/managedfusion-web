@@ -33,6 +33,16 @@ namespace ManagedFusion.Web.Mvc
 				throw new ArgumentNullException("default");
 
 			Default = @default;
+			Triggers = new object[0];
+		}
+
+		private void MapCommonTriggers()
+		{
+			if (Triggers.Length > 0)
+				return;
+
+			if (Default is String)
+				Triggers = new[] { "" };
 		}
 
 		/// <summary>
@@ -44,14 +54,25 @@ namespace ManagedFusion.Web.Mvc
 			get;
 			private set;
 		}
-		
+
+		/// <summary>
+		/// Gets or sets the empty values that trigger the default value.
+		/// </summary>
+		/// <remarks><see langref="null" /> is always considered a trigger.</remarks>
+		public object[] Triggers
+		{
+			get;
+			set;
+		}
+
 		/// <summary>
 		/// Gets the binder.
 		/// </summary>
 		/// <returns></returns>
 		public override IModelBinder GetBinder()
 		{
-			return new DefaultValueModelBinder(Name, Default);
+			MapCommonTriggers();
+			return new DefaultValueModelBinder(Name, Default, Triggers);
 		}
 
 		/// <summary>
@@ -63,13 +84,14 @@ namespace ManagedFusion.Web.Mvc
 			/// Initializes a new instance of the <see cref="DefaultAttribute"/> class.
 			/// </summary>
 			/// <param name="default">The @default.</param>
-			public DefaultValueModelBinder(string name, object @default)
+			public DefaultValueModelBinder(string name, object @default, object[] triggers)
 				: base(name)
 			{
 				if (@default == null)
 					throw new ArgumentNullException("default");
 
 				Default = @default;
+				Triggers = new List<object>(triggers);
 			}
 
 			/// <summary>
@@ -77,6 +99,16 @@ namespace ManagedFusion.Web.Mvc
 			/// </summary>
 			/// <value>The default.</value>
 			public object Default
+			{
+				get;
+				private set;
+			}
+
+			/// <summary>
+			/// Gets or sets the empty values that trigger the default value.
+			/// </summary>
+			/// <remarks><see langref="null" /> is always considered a trigger.</remarks>
+			public IList<object> Triggers
 			{
 				get;
 				private set;
@@ -94,6 +126,9 @@ namespace ManagedFusion.Web.Mvc
 					throw new ArgumentNullException("bindingContext");
 
 				var model = base.BindModel(controllerContext, bindingContext);
+
+				if (Triggers.Contains(model))
+					return Default;
 
 				// return the default if the model couldn't be retreived
 				return model ?? Default;

@@ -30,7 +30,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Data.Serialize(new CsvSerializer(), SerializePublicMembers);
+			return Data.Serialize(new CsvSerializer(), SerializePublicMembers, UseFrameworkIgnores);
 		}
 	}
 }

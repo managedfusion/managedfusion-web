@@ -46,7 +46,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Callback + "(" + Data.Serialize(new JsonResult.JsonSerializer(Data), SerializePublicMembers) + ");";
+			return Callback + "(" + Data.Serialize(new JsonResult.JsonSerializer(Data), SerializePublicMembers, UseFrameworkIgnores) + ");";
 		}
 
 		/// <summary>

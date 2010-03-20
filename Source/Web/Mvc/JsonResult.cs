@@ -32,7 +32,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Data.Serialize(new JsonSerializer(Data), SerializePublicMembers);
+			return Data.Serialize(new JsonSerializer(Data), SerializePublicMembers, UseFrameworkIgnores);
 		}
 
 		internal class JsonSerializer : ManagedFusion.Serialization.JsonSerializer
@@ -64,9 +64,9 @@ namespace ManagedFusion.Web.Mvc
 			/// </summary>
 			/// <param name="serialization">The serialization.</param>
 			/// <returns></returns>
-			public override string Serialize(Dictionary<string, object> serialization)
+			public override string SerializeToString(Dictionary<string, object> serialization)
 			{
-				return base.Serialize(SerializedResult.BuildResponse(_serializableObject, serialization));
+				return base.SerializeToString(SerializedResult.BuildResponse(_serializableObject, serialization));
 			}
 		}
 	}

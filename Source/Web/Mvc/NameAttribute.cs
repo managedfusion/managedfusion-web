@@ -84,8 +84,7 @@ namespace ManagedFusion.Web.Mvc
 				if (String.IsNullOrEmpty(Name))
 					Name = bindingContext.ModelName;
 
-				ValueProviderResult result;
-				bindingContext.ValueProvider.TryGetValue(Name, out result);
+				ValueProviderResult result = bindingContext.ValueProvider.GetValue(Name);
 
 				if (result != null)
 				{

@@ -35,7 +35,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Data.Serialize(new XmlSerializer(Data), SerializePublicMembers);
+			return Data.Serialize(new XmlSerializer(Data), SerializePublicMembers, UseFrameworkIgnores);
 		}
 
 		private class XmlSerializer : ManagedFusion.Serialization.XmlSerializer
@@ -67,14 +67,14 @@ namespace ManagedFusion.Web.Mvc
 			/// </summary>
 			/// <param name="serialization">The serialization.</param>
 			/// <returns></returns>
-			public override string Serialize(Dictionary<string, object> serialization)
+			public override string SerializeToString(Dictionary<string, object> serialization)
 			{
 				Dictionary<string, object> response = SerializedResult.BuildResponse(_serializableObject, serialization);
 
 				Dictionary<string, object> wrapper = new Dictionary<string, object>();
 				wrapper.Add("response", response);
 
-				return base.Serialize(wrapper);
+				return base.SerializeToString(wrapper);
 			}
 		}
 	}
