@@ -126,39 +126,40 @@ namespace ManagedFusion.Web.Mvc
 			if (filterContext.Result is ViewResult)
 			{
 				ViewResult result = filterContext.Result as ViewResult;
+				IDictionary<string,object> headers = new Dictionary<string, object>();
+
+				if (result.View is SerializedView)
+					headers = (result.View as SerializedView).SerializedHeader;
 
 				switch ((ResponseType)filterContext.RouteData.Values["responseType"])
 				{
-					case ResponseType.Html:
-						goto default;
-
 					case ResponseType.JavaScript:
-						filterContext.Result = new JavaScriptCallbackResult {
-							Data = result.ViewData.Model
-						};
+						result.View = new JavaScriptCallbackResult();
 						break;
 
 					case ResponseType.Json:
-						filterContext.Result = new ManagedFusion.Web.Mvc.JsonResult {
-							Data = result.ViewData.Model
-						};
+						result.View = new JsonResult();
 						break;
 
 					case ResponseType.Xml:
-						filterContext.Result = new XmlResult {
-							Data = result.ViewData.Model
-						};
+						result.View = new XmlResult();
 						break;
 
 					case ResponseType.Csv:
-						filterContext.Result = new CsvResult {
-							Data = result.ViewData.Model
-						};
+						result.View = new CsvResult();
 						break;
 
+					case ResponseType.Html:
 					default:
-						filterContext.Result = result;
 						break;
+				}
+
+				if (result.View is SerializedResult)
+				{
+					var resultX = (result.View as SerializedResult);
+
+					foreach (var header in headers)
+						resultX.SerializedHeader.Add(header.Key, header.Value);
 				}
 			}
 			else if (filterContext.Result is ISerializableActionResult)
@@ -167,33 +168,31 @@ namespace ManagedFusion.Web.Mvc
 
 				switch ((ResponseType)filterContext.RouteData.Values["responseType"])
 				{
-					case ResponseType.Html:
-						goto default;
-
 					case ResponseType.JavaScript:
 						filterContext.Result = new JavaScriptCallbackResult {
-							Data = result.Model
+							Model = result.Model
 						};
 						break;
 
 					case ResponseType.Json:
 						filterContext.Result = new ManagedFusion.Web.Mvc.JsonResult {
-							Data = result.Model
+							Model = result.Model
 						};
 						break;
 
 					case ResponseType.Xml:
 						filterContext.Result = new XmlResult {
-							Data = result.Model
+							Model = result.Model
 						};
 						break;
 
 					case ResponseType.Csv:
 						filterContext.Result = new CsvResult {
-							Data = result.Model
+							Model = result.Model
 						};
 						break;
 
+					case ResponseType.Html:
 					default:
 						filterContext.Result = (ActionResult)result;
 						break;

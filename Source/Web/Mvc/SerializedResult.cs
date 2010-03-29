@@ -8,13 +8,14 @@ using System.Web.Mvc;
 using System.Web;
 
 using ManagedFusion.Serialization;
+using System.IO;
 
 namespace ManagedFusion.Web.Mvc
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public abstract class SerializedResult : ActionResult
+	public abstract class SerializedResult : ActionResult, IView
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServiceResult"/> class.
@@ -23,18 +24,11 @@ namespace ManagedFusion.Web.Mvc
 		{
 			ContentEncoding = Encoding.UTF8;
 			ContentType = "text/xml";
-			SerializePublicMembers = true;
-			UseFrameworkIgnores = true;
-		}
 
-		/// <summary>
-		/// Gets or sets the data.
-		/// </summary>
-		/// <value>The data.</value>
-		public object Data
-		{
-			get;
-			set;
+			SerializePublicMembers = true;
+			FollowFrameworkIgnoreAttributes = true;
+
+			SerializedHeader = new Dictionary<string, object>();
 		}
 
 		/// <summary>
@@ -72,10 +66,19 @@ namespace ManagedFusion.Web.Mvc
 		/// <summary>
 		/// 
 		/// </summary>
-		public bool UseFrameworkIgnores
+		public bool FollowFrameworkIgnoreAttributes
 		{
 			get;
 			set;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public IDictionary<string, object> SerializedHeader
+		{
+			get;
+			internal set;
 		}
 
 		/// <summary>
@@ -83,11 +86,15 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		/// <param name="content">The content.</param>
 		/// <returns></returns>
-		protected internal static Dictionary<string, object> BuildResponse(object serializableObject, Dictionary<string, object> serializedContent)
+		protected Dictionary<string, object> BuildResponse(object serializableObject, Dictionary<string, object> serializedContent)
 		{
 			// create body of the response
 			Dictionary<string, object> response = new Dictionary<string, object>();
 			response.Add("timestamp", DateTime.UtcNow);
+
+			// add serialization headers to the response
+			foreach (var header in SerializedHeader)
+				response.Add(header.Key, header.Value);
 
 			// check for regular collection
 			if (serializableObject is ICollection)
@@ -112,10 +119,22 @@ namespace ManagedFusion.Web.Mvc
 		/// <summary>
 		/// Gets the content.
 		/// </summary>
-		/// <returns></returns>
 		protected internal abstract string GetContent();
 
+		/// <summary>
+		/// 
+		/// </summary>
 		protected internal abstract string ContentFileExtension { get; }
+
+		/// <summary>
+		/// Gets or sets the data.
+		/// </summary>
+		/// <value>The data.</value>
+		public object Model
+		{
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// Executes the result.
@@ -151,7 +170,7 @@ namespace ManagedFusion.Web.Mvc
 				response.AppendHeader("Cache-Control", "private, no-cache, must-revalidate, no-store, pre-check=0, post-check=0, max-stale=0");
 			}
 
-			if (Data != null)
+			if (Model != null)
 			{
 				string content = GetContent();
 
@@ -164,5 +183,15 @@ namespace ManagedFusion.Web.Mvc
 
 			response.End();
 		}
+
+		#region IView Members
+
+		public void Render(ViewContext viewContext, TextWriter writer)
+		{
+			Model = viewContext.ViewData.Model;
+			ExecuteResult(viewContext);
+		}
+
+		#endregion
 	}
 }

@@ -30,7 +30,16 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Data.Serialize(new CsvSerializer(), SerializePublicMembers, UseFrameworkIgnores);
+			CsvSerializer csvSerializer = new CsvSerializer();
+
+			Serializer serializer = new Serializer() {
+				SerializePublicMembers = SerializePublicMembers,
+				FollowFrameworkIgnoreAttributes = FollowFrameworkIgnoreAttributes
+			};
+
+			var response = BuildResponse(Model, serializer.SerializeToDictionary(Model, csvSerializer));
+
+			return csvSerializer.SerializeToString(response);
 		}
 	}
 }

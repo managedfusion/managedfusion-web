@@ -35,47 +35,22 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Data.Serialize(new XmlSerializer(Data), SerializePublicMembers, UseFrameworkIgnores);
-		}
+			XmlSerializer xmlSerializer = new XmlSerializer {
+				CheckForObjectName = true,
+				MaxSerializableLevelsSupported = null
+			};
 
-		private class XmlSerializer : ManagedFusion.Serialization.XmlSerializer
-		{
-			private object _serializableObject;
+			Serializer serializer = new Serializer() {
+				SerializePublicMembers = SerializePublicMembers,
+				FollowFrameworkIgnoreAttributes = FollowFrameworkIgnoreAttributes
+			};
 
-			/// <summary>
-			/// Initializes a new instance of the <see cref="XmlSerializer"/> class.
-			/// </summary>
-			/// <param name="obj">The obj.</param>
-			public XmlSerializer(object obj)
-			{
-				_serializableObject = obj;
-			}
+			var response = BuildResponse(Model, serializer.SerializeToDictionary(Model, xmlSerializer));
 
-			/// <summary>
-			/// Gets a value indicating whether to check for object name.
-			/// </summary>
-			/// <value>
-			/// 	<see langword="true"/> if [check for object name]; otherwise, <see langword="false"/>.
-			/// </value>
-			public override bool CheckForObjectName
-			{
-				get { return true; }
-			}
+			Dictionary<string, object> wrapper = new Dictionary<string, object>();
+			wrapper.Add("response", response);
 
-			/// <summary>
-			/// Serializes to json.
-			/// </summary>
-			/// <param name="serialization">The serialization.</param>
-			/// <returns></returns>
-			public override string SerializeToString(Dictionary<string, object> serialization)
-			{
-				Dictionary<string, object> response = SerializedResult.BuildResponse(_serializableObject, serialization);
-
-				Dictionary<string, object> wrapper = new Dictionary<string, object>();
-				wrapper.Add("response", response);
-
-				return base.SerializeToString(wrapper);
-			}
+			return xmlSerializer.SerializeToString(wrapper);
 		}
 	}
 }

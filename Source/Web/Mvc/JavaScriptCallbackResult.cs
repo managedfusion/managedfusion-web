@@ -11,7 +11,7 @@ namespace ManagedFusion.Web.Mvc
 	/// <summary>
 	/// 
 	/// </summary>
-	public class JavaScriptCallbackResult : SerializedResult
+	public class JavaScriptCallbackResult : JsonResult
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JavaScriptResult"/> class.
@@ -26,7 +26,7 @@ namespace ManagedFusion.Web.Mvc
 		/// Gets or sets the callback.
 		/// </summary>
 		/// <value>The callback.</value>
-		public string Callback
+		private string Callback
 		{
 			get;
 			set;
@@ -46,7 +46,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			return Callback + "(" + Data.Serialize(new JsonResult.JsonSerializer(Data), SerializePublicMembers, UseFrameworkIgnores) + ");";
+			return Callback + "(" + base.GetContent() + ");";
 		}
 
 		/// <summary>
@@ -55,7 +55,6 @@ namespace ManagedFusion.Web.Mvc
 		/// <param name="context">The context.</param>
 		public override void ExecuteResult(ControllerContext context)
 		{
-
 			Callback = context.HttpContext.Request.QueryString["callback"];
 
 			if (String.IsNullOrEmpty(Callback))
