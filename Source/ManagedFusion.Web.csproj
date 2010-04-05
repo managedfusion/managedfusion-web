@@ -60,6 +60,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\IPagedList.cs" />
+    <Compile Include="Collections\LazyList.cs" />
+    <Compile Include="Collections\PagedList.cs" />
+    <Compile Include="Collections\Pagination.cs" />
     <Compile Include="If.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Switch.cs" />
