@@ -10,7 +10,31 @@ namespace ManagedFusion.Web.Mvc
 	{
 		public SerializedView()
 		{
+			SerializePublicMembers = true;
+			FollowFrameworkIgnoreAttributes = true;
+
 			SerializedHeader = new Dictionary<string, object>();
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether [serialize public members].
+		/// </summary>
+		/// <value>
+		/// 	<see langword="true"/> if [serialize public members]; otherwise, <see langword="false"/>.
+		/// </value>
+		public bool SerializePublicMembers
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool FollowFrameworkIgnoreAttributes
+		{
+			get;
+			set;
 		}
 
 		/// <summary>

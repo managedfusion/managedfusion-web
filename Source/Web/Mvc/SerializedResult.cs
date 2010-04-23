@@ -86,10 +86,10 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		/// <param name="content">The content.</param>
 		/// <returns></returns>
-		protected Dictionary<string, object> BuildResponse(object serializableObject, Dictionary<string, object> serializedContent)
+		protected IDictionary<string, object> BuildResponse(object serializableObject, IDictionary<string, object> serializedContent)
 		{
 			// create body of the response
-			Dictionary<string, object> response = new Dictionary<string, object>();
+			IDictionary<string, object> response = new Dictionary<string, object>();
 			response.Add("timestamp", DateTime.UtcNow);
 
 			// add serialization headers to the response

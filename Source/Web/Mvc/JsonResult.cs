@@ -42,9 +42,9 @@ namespace ManagedFusion.Web.Mvc
 				FollowFrameworkIgnoreAttributes = FollowFrameworkIgnoreAttributes
 			};
 
-			var response = BuildResponse(Model, serializer.SerializeToDictionary(Model, jsonSerializer));
+			var response = BuildResponse(Model, serializer.FromObject(Model, jsonSerializer));
 
-			return jsonSerializer.SerializeToString(response);
+			return jsonSerializer.Serialize(response);
 		}
 	}
 }

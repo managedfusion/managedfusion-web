@@ -37,9 +37,11 @@ namespace ManagedFusion.Web.Mvc
 				FollowFrameworkIgnoreAttributes = FollowFrameworkIgnoreAttributes
 			};
 
-			var response = BuildResponse(Model, serializer.SerializeToDictionary(Model, csvSerializer));
 
-			return csvSerializer.SerializeToString(response);
+			// don't want to build a response because we want this as flat as possible
+			var response = serializer.FromObject(Model, csvSerializer);
+
+			return csvSerializer.Serialize(response);
 		}
 	}
 }

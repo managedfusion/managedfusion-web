@@ -126,10 +126,7 @@ namespace ManagedFusion.Web.Mvc
 			if (filterContext.Result is ViewResult)
 			{
 				ViewResult result = filterContext.Result as ViewResult;
-				IDictionary<string,object> headers = new Dictionary<string, object>();
-
-				if (result.View is SerializedView)
-					headers = (result.View as SerializedView).SerializedHeader;
+				SerializedView view = result.View as SerializedView;
 
 				switch ((ResponseType)filterContext.RouteData.Values["responseType"])
 				{
@@ -154,11 +151,14 @@ namespace ManagedFusion.Web.Mvc
 						break;
 				}
 
-				if (result.View is SerializedResult)
+				if (result.View is SerializedResult && view != null)
 				{
 					var resultX = (result.View as SerializedResult);
 
-					foreach (var header in headers)
+					resultX.FollowFrameworkIgnoreAttributes = view.FollowFrameworkIgnoreAttributes;
+					resultX.SerializePublicMembers = view.SerializePublicMembers;
+
+					foreach (var header in view.SerializedHeader)
 						resultX.SerializedHeader.Add(header.Key, header.Value);
 				}
 			}

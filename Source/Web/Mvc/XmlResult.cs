@@ -45,12 +45,12 @@ namespace ManagedFusion.Web.Mvc
 				FollowFrameworkIgnoreAttributes = FollowFrameworkIgnoreAttributes
 			};
 
-			var response = BuildResponse(Model, serializer.SerializeToDictionary(Model, xmlSerializer));
+			var response = BuildResponse(Model, serializer.FromObject(Model, xmlSerializer));
 
 			Dictionary<string, object> wrapper = new Dictionary<string, object>();
 			wrapper.Add("response", response);
 
-			return xmlSerializer.SerializeToString(wrapper);
+			return xmlSerializer.Serialize(wrapper);
 		}
 	}
 }
