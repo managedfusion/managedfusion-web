@@ -11,7 +11,7 @@ namespace ManagedFusion.Web.Mvc
 	/// <summary>
 	/// 
 	/// </summary>
-	public class XmlResult : SerializedResult
+	public class XmlResult : SerializedView
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlResult"/> class.

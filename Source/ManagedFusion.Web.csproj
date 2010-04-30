@@ -67,6 +67,7 @@
     <Compile Include="If.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Switch.cs" />
+    <Compile Include="Web\Mvc\AutoSerializedView.cs" />
     <Compile Include="Web\Extensions\HttpResponse.cs" />
     <Compile Include="Web\HeaderQValue.cs" />
     <Compile Include="Web\HeaderQValueList.cs" />

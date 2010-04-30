@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 
 using ManagedFusion.Serialization;
+using System.IO;
 
 namespace ManagedFusion.Web.Mvc
 {
@@ -50,17 +51,18 @@ namespace ManagedFusion.Web.Mvc
 		}
 
 		/// <summary>
-		/// Executes the result.
+		/// 
 		/// </summary>
-		/// <param name="context">The context.</param>
-		public override void ExecuteResult(ControllerContext context)
+		/// <param name="viewContext"></param>
+		/// <param name="writer"></param>
+		public override void Render(ViewContext viewContext, TextWriter writer)
 		{
-			Callback = context.HttpContext.Request.QueryString["callback"];
+			Callback = viewContext.HttpContext.Request.QueryString["callback"];
 
 			if (String.IsNullOrEmpty(Callback))
 				Callback = "callback";
 
-			base.ExecuteResult(context);
+			base.Render(viewContext, writer);
 		}
 	}
 }

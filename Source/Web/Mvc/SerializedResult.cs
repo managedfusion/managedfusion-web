@@ -15,125 +15,111 @@ namespace ManagedFusion.Web.Mvc
 	/// <summary>
 	/// 
 	/// </summary>
-	public abstract class SerializedResult : ActionResult, IView
+	public class SerializedResult : ActionResult, ISerializableActionResult
 	{
+		public SerializedResult(object model)
+			: this(model, new AutoSerializedView()) { }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServiceResult"/> class.
 		/// </summary>
-		public SerializedResult()
+		public SerializedResult(object model, SerializedView view)
+			: this()
 		{
-			ContentEncoding = Encoding.UTF8;
-			ContentType = "text/xml";
+			ModelSerializer = view;
+			Model = model;
+		}
 
-			SerializePublicMembers = true;
-			FollowFrameworkIgnoreAttributes = true;
-
-			SerializedHeader = new Dictionary<string, object>();
+		protected SerializedResult()
+		{
+			StatusCode = 200;
+			StatusDescription = "OK";
 		}
 
 		/// <summary>
-		/// Gets or sets the content encoding.
+		/// Gets or sets the model serializer.
 		/// </summary>
-		/// <value>The content encoding.</value>
-		public Encoding ContentEncoding
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Gets or sets the type of the content.
-		/// </summary>
-		/// <value>The type of the content.</value>
-		public string ContentType
+		public virtual SerializedView ModelSerializer
 		{
 			get;
-			set;
+			private set;
 		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether [serialize public members].
-		/// </summary>
-		/// <value>
-		/// 	<see langword="true"/> if [serialize public members]; otherwise, <see langword="false"/>.
-		/// </value>
-		public bool SerializePublicMembers
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public bool FollowFrameworkIgnoreAttributes
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public IDictionary<string, object> SerializedHeader
-		{
-			get;
-			internal set;
-		}
-
-		/// <summary>
-		/// Builds the response.
-		/// </summary>
-		/// <param name="content">The content.</param>
-		/// <returns></returns>
-		protected IDictionary<string, object> BuildResponse(object serializableObject, IDictionary<string, object> serializedContent)
-		{
-			// create body of the response
-			IDictionary<string, object> response = new Dictionary<string, object>();
-			response.Add("timestamp", DateTime.UtcNow);
-
-			// add serialization headers to the response
-			foreach (var header in SerializedHeader)
-				response.Add(header.Key, header.Value);
-
-			// check for regular collection
-			if (serializableObject is ICollection)
-			{
-				response.Add("count", ((ICollection)serializableObject).Count);
-
-				if (serializedContent.Count > 1)
-					response.Add("collection", serializedContent);
-				else
-					foreach (var value in serializedContent)
-						response.Add(value.Key, value.Value);
-			}
-			else if (serializedContent.Count > 1)
-				response.Add("object", serializedContent);
-			else
-				foreach (var value in serializedContent)
-					response.Add(value.Key, value.Value);
-
-			return response;
-		}
-
-		/// <summary>
-		/// Gets the content.
-		/// </summary>
-		protected internal abstract string GetContent();
-
-		/// <summary>
-		/// 
-		/// </summary>
-		protected internal abstract string ContentFileExtension { get; }
 
 		/// <summary>
 		/// Gets or sets the data.
 		/// </summary>
 		/// <value>The data.</value>
-		public object Model
+		public virtual object Model
 		{
 			get;
-			set;
+			private set;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int StatusCode { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public string StatusDescription { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		private static string NormalizeType(string type)
+		{
+			if (String.Equals(type, "javascript", StringComparison.InvariantCultureIgnoreCase))
+				return "javascript";
+			else if (String.Equals(type, "jsonp", StringComparison.InvariantCultureIgnoreCase))
+				return "javascript";
+
+			return type;
+		}
+
+		/// <summary>
+		/// Called when [action executing].
+		/// </summary>
+		/// <param name="filterContext">The filter context.</param>
+		public static ResponseType GetResponseType(ControllerContext filterContext)
+		{
+			string type = NormalizeType(filterContext.HttpContext.Request.QueryString["type"]);
+			ResponseType responseType = ResponseType.Html;
+
+			// check to see if we should try to parse it to an enum
+			if (!String.IsNullOrEmpty(type))
+				responseType = ManagedFusion.Utility.ParseEnum<ResponseType>(type);
+
+			// if the response type is still the default HTML check the Accept header
+			// if the requestion is an XMLHttpRequest
+			if (responseType == ResponseType.Html && filterContext.HttpContext.Request.AcceptTypes != null)
+			{
+				foreach (string accept in filterContext.HttpContext.Request.AcceptTypes)
+				{
+					switch (accept.ToLower())
+					{
+						case "application/json":
+						case "application/x-json": responseType = ResponseType.Json; break;
+
+						case "application/javascript":
+						case "application/x-javascript":
+						case "text/javascript": responseType = ResponseType.JavaScript; break;
+
+						case "application/xml":
+						case "text/xml": responseType = ResponseType.Xml; break;
+
+						case "text/csv": responseType = ResponseType.Csv; break;
+					}
+
+					if (responseType != ResponseType.Html)
+						break;
+				}
+			}
+
+			return responseType;
 		}
 
 		/// <summary>
@@ -142,56 +128,74 @@ namespace ManagedFusion.Web.Mvc
 		/// <param name="context">The context.</param>
 		public override void ExecuteResult(ControllerContext context)
 		{
+			if (ModelSerializer == null || ModelSerializer is AutoSerializedView)
+				UpdateModelSerializer(context);
+
+			WriteResponse(context);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		private void UpdateModelSerializer(ControllerContext context)
+		{
+			SerializedView view = ModelSerializer as SerializedView;
+
+			if (view == null)
+				view = new AutoSerializedView();
+
+			switch (GetResponseType(context))
+			{
+				case ResponseType.JavaScript:
+					ModelSerializer = new JavaScriptCallbackResult();
+					break;
+
+				case ResponseType.Json:
+					ModelSerializer = new JsonResult();
+					break;
+
+				case ResponseType.Xml:
+					ModelSerializer = new XmlResult();
+					break;
+
+				case ResponseType.Csv:
+					ModelSerializer = new CsvResult();
+					break;
+
+				case ResponseType.Html:
+				default:
+					break;
+			}
+
+			if (ModelSerializer is SerializedView && view != null)
+			{
+				var resultX = (ModelSerializer as SerializedView);
+
+				resultX.FollowFrameworkIgnoreAttributes = view.FollowFrameworkIgnoreAttributes;
+				resultX.SerializePublicMembers = view.SerializePublicMembers;
+
+				foreach (var header in view.SerializedHeader)
+					resultX.SerializedHeader.Add(header.Key, header.Value);
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		private void WriteResponse(ControllerContext context)
+		{
 			if (context == null)
-			{
 				throw new ArgumentNullException("context");
-			}
 
-			string action = context.RouteData.GetRequiredString("action");
-			HttpRequestBase request = context.HttpContext.Request;
 			HttpResponseBase response = context.HttpContext.Response;
-			response.ClearHeaders();
-			response.ClearContent();
 
-			if (!String.IsNullOrEmpty(ContentType))
-				response.ContentType = ContentType;
-
-			if (ContentEncoding != null)
-				response.ContentEncoding = ContentEncoding;
-
-			response.Cache.SetExpires(DateTime.Today.AddDays(-1D));
-			response.AppendHeader("X-Robots-Tag", "noindex, follow, noarchive, nosnippet");
-			response.AppendHeader("Content-Disposition", String.Format("inline; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
-
-			if (!request.IsSecureConnection)
-			{
-				response.Cache.SetCacheability(HttpCacheability.NoCache);
-				response.AppendHeader("Pragma", "no-cache");
-				response.AppendHeader("Cache-Control", "private, no-cache, must-revalidate, no-store, pre-check=0, post-check=0, max-stale=0");
-			}
+			ModelSerializer.StatusCode = StatusCode;
+			ModelSerializer.StatusDescription = StatusDescription;
 
 			if (Model != null)
-			{
-				string content = GetContent();
-
-				if (content != null)
-				{
-					response.AppendHeader("Content-Length", content.Length.ToString());
-					response.Write(content);
-				}
-			}
-
-			response.End();
+				ModelSerializer.Render(new ViewContext(context, ModelSerializer, new ViewDataDictionary(Model), new TempDataDictionary(), response.Output), response.Output);
 		}
-
-		#region IView Members
-
-		public void Render(ViewContext viewContext, TextWriter writer)
-		{
-			Model = viewContext.ViewData.Model;
-			ExecuteResult(viewContext);
-		}
-
-		#endregion
 	}
 }

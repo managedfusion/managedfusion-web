@@ -8,7 +8,7 @@ using ManagedFusion.Serialization;
 
 namespace ManagedFusion.Web.Mvc
 {
-	public class JsonResult : SerializedResult
+	public class JsonResult : SerializedView
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JsonResult"/> class.
