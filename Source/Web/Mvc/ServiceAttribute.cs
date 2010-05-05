@@ -101,7 +101,7 @@ namespace ManagedFusion.Web.Mvc
 						break;
 				}
 
-				if (result.View is SerializedResult && view != null)
+				if (result.View is SerializedView && view != null)
 				{
 					var resultX = (result.View as SerializedView);
 
