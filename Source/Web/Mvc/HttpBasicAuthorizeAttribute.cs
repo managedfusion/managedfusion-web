@@ -8,7 +8,7 @@ using System.Web;
 namespace ManagedFusion.Web.Mvc
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
-	public class HttpBasicAuthorizeAttribute : BaseAuthorizeAttribute
+	public class HttpBasicAuthorizeAttribute : AuthorizeAttribute
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BasicHttpAuthorizeAttribute"/> class.
@@ -51,14 +51,14 @@ namespace ManagedFusion.Web.Mvc
 		public StringComparison PasswordComparison { get; set; }
 
 		/// <summary>
-		/// Gets the authenticate result.
+		/// 
 		/// </summary>
-		/// <value>The authenticate result.</value>
-		public override ActionResult AuthenticateResult
+		/// <param name="filterContext"></param>
+		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
 		{
-			get { return new HttpBasicAuthenticationResult(Realm); }
+			filterContext.Result = new HttpBasicAuthenticationResult(Realm);
 		}
-		
+
 		/// <summary>
 		/// Authorizes the core.
 		/// </summary>
