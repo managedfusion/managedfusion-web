@@ -19,8 +19,11 @@ namespace ManagedFusion.Web.Mvc
 		public ServiceAttribute()
 		{
 			Order = 0;
+			OnlyRespondToAjaxRequests = false;
 			ErrorResult = null;
 		}
+
+		public bool OnlyRespondToAjaxRequests { get; set; }
 
 		private Type _errorResult;
 		public Type ErrorResult

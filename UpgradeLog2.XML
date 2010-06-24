@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="ManagedFusion.Web">
+</Property><Property Name="Solution File" Value="C:\development\projects\Managed Fusion (Open Source)\ManagedFusion.Web\ManagedFusion.Web.sln">
+</Property><Property Name="Date" Value="Thursday, June 03, 2010">
+</Property><Property Name="Time" Value="11:17 AM">
+</Property><Property Name="Log Number" Value="2">
+</Property></Properties><Event ErrorLevel="0" Project="ManagedFusion.Web" Source="Source\ManagedFusion.Web.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="ManagedFusion.Web" Source="Source\ManagedFusion.Web.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="ManagedFusion" Source="..\ManagedFusion\Source\ManagedFusion.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="ManagedFusion" Source="..\ManagedFusion\Source\ManagedFusion.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="" Source="ManagedFusion.Web.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="ManagedFusion.Web.sln" Description="Converted">
+</Event></UpgradeLog>

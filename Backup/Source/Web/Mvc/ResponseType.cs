@@ -17,7 +17,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <summary>
 		/// 
 		/// </summary>
-		None = 0,
+		None,
 		/// <summary>
 		/// 
 		/// </summary>

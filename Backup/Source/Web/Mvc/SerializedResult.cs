@@ -87,22 +87,20 @@ namespace ManagedFusion.Web.Mvc
 		public static ResponseType GetResponseType(ControllerContext filterContext)
 		{
 			string type = NormalizeType(filterContext.HttpContext.Request.QueryString["type"]);
-			ResponseType responseType = ResponseType.None;
+			ResponseType responseType = ResponseType.Html;
 
 			// check to see if we should try to parse it to an enum
-			responseType = ManagedFusion.Utility.ParseEnum<ResponseType>(type);
+			if (!String.IsNullOrEmpty(type))
+				responseType = ManagedFusion.Utility.ParseEnum<ResponseType>(type);
 
 			// if the response type is still the default HTML check the Accept header
 			// if the requestion is an XMLHttpRequest
-			if (responseType == ResponseType.None && filterContext.HttpContext.Request.AcceptTypes != null)
+			if (responseType == ResponseType.Html && filterContext.HttpContext.Request.AcceptTypes != null)
 			{
 				foreach (string accept in filterContext.HttpContext.Request.AcceptTypes)
 				{
 					switch (accept.ToLower())
 					{
-						case "application/xhtml+xml":
-						case "text/html": responseType = ResponseType.Html; break;
-
 						case "application/json":
 						case "application/x-json": responseType = ResponseType.Json; break;
 
@@ -116,13 +114,10 @@ namespace ManagedFusion.Web.Mvc
 						case "text/csv": responseType = ResponseType.Csv; break;
 					}
 
-					if (responseType != ResponseType.None)
+					if (responseType != ResponseType.Html)
 						break;
 				}
 			}
-
-			if (responseType == ResponseType.None)
-				responseType = ResponseType.Html;
 
 			return responseType;
 		}

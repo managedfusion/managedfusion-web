@@ -5,21 +5,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}</ProjectGuid>
+    <ProjectGuid>{92F1B19A-91D8-4F24-99D8-40042F86855D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ManagedFusion</RootNamespace>
-    <AssemblyName>ManagedFusion.Web</AssemblyName>
+    <AssemblyName>ManagedFusion</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -67,74 +63,33 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Routing">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\IPagedList.cs" />
-    <Compile Include="Collections\LazyList.cs" />
-    <Compile Include="Collections\PagedList.cs" />
-    <Compile Include="Collections\Pagination.cs" />
-    <Compile Include="If.cs" />
+    <Compile Include="Crc32.cs" />
+    <Compile Include="Difference.cs" />
+    <Compile Include="Extensions\Enumerator.cs" />
+    <Compile Include="Extensions\IPAddress.cs" />
+    <Compile Include="Extensions\String.cs" />
+    <Compile Include="Extensions\SubnetMask.cs" />
+    <Compile Include="Extensions\TimeSpan.cs" />
+    <Compile Include="GuidGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Switch.cs" />
-    <Compile Include="Web\Mvc\AutoSerializedView.cs" />
-    <Compile Include="Web\Extensions\HttpResponse.cs" />
-    <Compile Include="Web\HeaderQValue.cs" />
-    <Compile Include="Web\HeaderQValueList.cs" />
-    <Compile Include="Web\Mvc\AllowedHttpMethodsAttribute.cs" />
-    <Compile Include="Web\Mvc\AuthorizeHostAddressAttribute.cs" />
-    <Compile Include="Web\Mvc\CsvResult.cs" />
-    <Compile Include="Web\Mvc\HttpBasicAuthenticationResult.cs" />
-    <Compile Include="Web\Mvc\HttpBasicAuthorizeAttribute.cs" />
-    <Compile Include="Web\Mvc\CaptchaValidationAttribute.cs" />
-    <Compile Include="Web\Mvc\CodedRedirectResult.cs" />
-    <Compile Include="Web\Mvc\CodedRedirectToRouteResult.cs" />
-    <Compile Include="Web\Mvc\CompressAttribute.cs" />
-    <Compile Include="Web\Mvc\Controls\BackgroundNoiseLevel.cs" />
-    <Compile Include="Web\Mvc\Controls\CaptchaImage.cs" />
-    <Compile Include="Web\Mvc\Controls\FontWarpFactor.cs" />
-    <Compile Include="Web\Mvc\Controls\LineNoiseLevel.cs" />
-    <Compile Include="Web\Mvc\DefaultAttribute.cs" />
-    <Compile Include="Web\Mvc\Extensions\Controller.cs" />
-    <Compile Include="Web\Mvc\Extensions\HtmlHelper.cs" />
-    <Compile Include="Web\Mvc\Handlers\CaptchaImageHandler.cs" />
-    <Compile Include="Web\Mvc\HttpGetOnlyAttribute.cs" />
-    <Compile Include="Web\Mvc\HttpPostOnlyAttribute.cs" />
-    <Compile Include="Web\Mvc\ISerializableActionResult.cs" />
-    <Compile Include="Web\Mvc\JavaScriptCallbackResult.cs" />
-    <Compile Include="Web\Mvc\JsonResult.cs" />
-    <Compile Include="Web\Mvc\LowercaseRoute.cs" />
-    <Compile Include="Web\Mvc\MethodNotAllowedResult.cs" />
-    <Compile Include="Web\Mvc\NameAttribute.cs" />
-    <Compile Include="Web\Mvc\ResponseType.cs" />
-    <Compile Include="Web\Mvc\SerializedResult.cs" />
-    <Compile Include="Web\Mvc\SerializedView.cs" />
-    <Compile Include="Web\Mvc\ServiceAttribute.cs" />
-    <Compile Include="Web\Mvc\ServiceOnlyAttribute.cs" />
-    <Compile Include="Web\Mvc\UnsupportedMediaTypeResult.cs" />
-    <Compile Include="Web\Mvc\XmlResult.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ManagedFusion\Source\ManagedFusion.csproj">
-      <Project>{92F1B19A-91D8-4F24-99D8-40042F86855D}</Project>
-      <Name>ManagedFusion</Name>
-    </ProjectReference>
+    <Compile Include="Serialization\CsvSerializer.cs" />
+    <Compile Include="Serialization\IDeserializer.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Serialization\ISerializerOptions.cs" />
+    <Compile Include="Serialization\JsonDeserializer.cs" />
+    <Compile Include="Serialization\JsonSerializer.cs" />
+    <Compile Include="Serialization\SerializableCollectionObjectAttribute.cs" />
+    <Compile Include="Serialization\SerializableObjectAttribute.cs" />
+    <Compile Include="Serialization\SerializablePropertyAttribute.cs" />
+    <Compile Include="Serialization\SerializationExtensions.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Serialization\SerlizerOptions.cs" />
+    <Compile Include="Serialization\XmlSerializer.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

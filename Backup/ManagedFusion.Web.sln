@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedFusion.Web", "Source\ManagedFusion.Web.csproj", "{FB8FDF75-AF29-409D-B2E5-9283B9D1ECF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedFusion", "..\ManagedFusion\Source\ManagedFusion.csproj", "{92F1B19A-91D8-4F24-99D8-40042F86855D}"
