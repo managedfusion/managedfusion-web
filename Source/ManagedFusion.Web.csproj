@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ManagedFusion</RootNamespace>
     <AssemblyName>ManagedFusion.Web</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
     </SccProjectName>
@@ -131,12 +131,6 @@
     <Compile Include="Web\Mvc\XmlResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ManagedFusion\Source\ManagedFusion.csproj">
-      <Project>{92F1B19A-91D8-4F24-99D8-40042F86855D}</Project>
-      <Name>ManagedFusion</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -152,6 +146,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ManagedFusion\Source\ManagedFusion.csproj">
+      <Project>{92F1B19A-91D8-4F24-99D8-40042F86855D}</Project>
+      <Name>ManagedFusion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

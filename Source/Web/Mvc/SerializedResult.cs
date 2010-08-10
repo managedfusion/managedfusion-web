@@ -92,32 +92,44 @@ namespace ManagedFusion.Web.Mvc
 			// check to see if we should try to parse it to an enum
 			responseType = ManagedFusion.Utility.ParseEnum<ResponseType>(type);
 
-			// if the response type is still the default HTML check the Accept header
-			// if the requestion is an XMLHttpRequest
+			var acceptTypes = filterContext.HttpContext.Request.AcceptTypes;
+
 			if (responseType == ResponseType.None && filterContext.HttpContext.Request.AcceptTypes != null)
 			{
-				foreach (string accept in filterContext.HttpContext.Request.AcceptTypes)
+				if (acceptTypes.Any(x => x.StartsWith("text/html") || x.StartsWith("application/xhtml+xml")))
+					responseType = ResponseType.Html;
+
+				if (responseType == ResponseType.None)
 				{
-					switch (accept.ToLower())
+					foreach (string accept in acceptTypes)
 					{
-						case "application/xhtml+xml":
-						case "text/html": responseType = ResponseType.Html; break;
+						var value = accept;
+						var seperatorIndex = value.IndexOf(';');
 
-						case "application/json":
-						case "application/x-json": responseType = ResponseType.Json; break;
+						if (seperatorIndex > -1)
+							value = value.Substring(0, seperatorIndex);
 
-						case "application/javascript":
-						case "application/x-javascript":
-						case "text/javascript": responseType = ResponseType.JavaScript; break;
+						switch (accept.ToLower())
+						{
+							case "application/xhtml+xml":
+							case "text/html": responseType = ResponseType.Html; break;
 
-						case "application/xml":
-						case "text/xml": responseType = ResponseType.Xml; break;
+							case "application/json":
+							case "application/x-json": responseType = ResponseType.Json; break;
 
-						case "text/csv": responseType = ResponseType.Csv; break;
+							case "application/javascript":
+							case "application/x-javascript":
+							case "text/javascript": responseType = ResponseType.JavaScript; break;
+
+							case "application/xml":
+							case "text/xml": responseType = ResponseType.Xml; break;
+
+							case "text/csv": responseType = ResponseType.Csv; break;
+						}
+
+						if (responseType != ResponseType.None)
+							break;
 					}
-
-					if (responseType != ResponseType.None)
-						break;
 				}
 			}
 
