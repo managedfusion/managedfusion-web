@@ -64,6 +64,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -90,6 +91,10 @@
     <Compile Include="Collections\LazyList.cs" />
     <Compile Include="Collections\PagedList.cs" />
     <Compile Include="Collections\Pagination.cs" />
+    <Compile Include="Composition\FilteredCatalog.cs" />
+    <Compile Include="Composition\MefHttpApplication.cs" />
+    <Compile Include="Composition\WebScopedContainerManager.cs" />
+    <Compile Include="Composition\WebScopeMode.cs" />
     <Compile Include="If.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Switch.cs" />
