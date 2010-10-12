@@ -17,6 +17,7 @@ namespace ManagedFusion.Web.Mvc
 			FollowFrameworkIgnoreAttributes = true;
 
 			SerializedHeader = new Dictionary<string, object>();
+			SerializedRootName = null;
 
 			StatusCode = 200;
 			StatusDescription = "OK";
@@ -84,6 +85,11 @@ namespace ManagedFusion.Web.Mvc
 		/// <summary>
 		/// 
 		/// </summary>
+		public string SerializedRootName { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		public int StatusCode { get; set; }
 
 		/// <summary>
@@ -108,20 +114,14 @@ namespace ManagedFusion.Web.Mvc
 
 			// check for regular collection
 			if (serializableObject is ICollection)
-			{
 				response.Add("count", ((ICollection)serializableObject).Count);
 
-				if (serializedContent.Count > 1)
-					response.Add("collection", serializedContent);
-				else
-					foreach (var value in serializedContent)
-						response.Add(value.Key, value.Value);
-			}
-			else if (serializedContent.Count > 1)
-				response.Add("object", serializedContent);
-			else
-				foreach (var value in serializedContent)
-					response.Add(value.Key, value.Value);
+			var rootName = SerializedRootName;
+
+			if (String.IsNullOrEmpty(rootName))
+				rootName = serializableObject is ICollection ? "collection" : "object";
+
+			response.Add(rootName, serializedContent);
 
 			return response;
 		}
@@ -145,7 +145,6 @@ namespace ManagedFusion.Web.Mvc
 			string action = viewContext.RouteData.GetRequiredString("action");
 			HttpRequestBase request = viewContext.HttpContext.Request;
 			HttpResponseBase response = viewContext.HttpContext.Response;
-			response.ClearHeaders();
 			response.ClearContent();
 
 			response.StatusCode = StatusCode;

@@ -19,28 +19,31 @@ namespace ManagedFusion.Web.Mvc
 		public ServiceAttribute()
 		{
 			Order = 0;
-			ErrorResult = null;
+			ExceptionResult = null;
+			DefaultResponseType = ResponseType.Html;
 		}
 
-		private Type _errorResult;
-		public Type ErrorResult
+		public ResponseType DefaultResponseType { get; set; }
+
+		private Type _exceptionResult;
+		public Type ExceptionResult
 		{
 			get
 			{
-				return _errorResult;
+				return _exceptionResult;
 			}
 			set
 			{
-				if (value != null && value.GetInterface("ISerializableErrorResult", false) == null)
-					throw new ArgumentException("ErrorResult must be a type with interface ISerializableActionResult.");
+				if (value != null && value.GetInterface("ISerializableExceptionResult", false) == null)
+					throw new ArgumentException("ErrorResult must impliment interface ISerializableExceptionResult.");
 
-				_errorResult = value;
+				_exceptionResult = value;
 			}
 		}
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var responseType = SerializedResult.GetResponseType(filterContext);
+			var responseType = ServiceHelper.GetResponseType(filterContext, DefaultResponseType);
 
 			if (filterContext.RouteData.Values.ContainsKey("responseType"))
 				filterContext.RouteData.Values.Remove("responseType");
@@ -55,10 +58,11 @@ namespace ManagedFusion.Web.Mvc
 		/// <param name="filterContext">The filter context.</param>
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			if (filterContext != null && filterContext.Exception != null && ErrorResult != null)
+			if (filterContext != null && filterContext.Exception != null && ExceptionResult != null)
 			{
-				ISerializableErrorResult result = Activator.CreateInstance(ErrorResult) as ISerializableErrorResult;
-				result.Error = filterContext.Exception.ToString();
+				var result = Activator.CreateInstance(ExceptionResult) as ISerializableExceptionResult;
+				result.ExceptionMessage = filterContext.Exception.Message;
+				result.Exception = filterContext.Exception;
 
 				if (filterContext.Exception is HttpException)
 				{
