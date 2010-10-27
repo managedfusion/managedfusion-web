@@ -14,7 +14,7 @@ namespace ManagedFusion.Web.Mvc.Handlers
 	/// <remarks>
 	/// You must add the to your web.config:
 	///	<httpHandlers>
-	///		<add verb="GET" path="captcha.ashx" type="ManagedFusion.Web.Handlers.CaptchaImageHandler, ManagedFusion" />
+	///		<add verb="GET" path="captcha.ashx" type="ManagedFusion.Web.Handlers.CaptchaImageHandler, ManagedFusion.Web" />
 	///	</httpHandlers>
 	/// </remarks>
 	/// <seealso href="http://www.codinghorror.com">Original By Jeff Atwood</seealso>
