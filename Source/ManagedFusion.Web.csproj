@@ -128,12 +128,14 @@
     <Compile Include="Web\Mvc\LowercaseRoute.cs" />
     <Compile Include="Web\Mvc\MethodNotAllowedResult.cs" />
     <Compile Include="Web\Mvc\NameAttribute.cs" />
+    <Compile Include="Web\Mvc\NullViewEngine.cs" />
     <Compile Include="Web\Mvc\ResponseType.cs" />
     <Compile Include="Web\Mvc\SerializedResult.cs" />
     <Compile Include="Web\Mvc\SerializedView.cs" />
     <Compile Include="Web\Mvc\ServiceAttribute.cs" />
     <Compile Include="Web\Mvc\ServiceHelper.cs" />
     <Compile Include="Web\Mvc\ServiceOnlyAttribute.cs" />
+    <Compile Include="Web\Mvc\StopwatchAttribute.cs" />
     <Compile Include="Web\Mvc\UnsupportedMediaTypeResult.cs" />
     <Compile Include="Web\Mvc\XmlResult.cs" />
   </ItemGroup>

@@ -18,7 +18,6 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public ServiceAttribute()
 		{
-			Order = 0;
 			ExceptionResult = null;
 			DefaultResponseType = ResponseType.Html;
 		}
@@ -76,8 +75,8 @@ namespace ManagedFusion.Web.Mvc
 			
 			if (filterContext.Result is ViewResult)
 			{
-				ViewResult result = filterContext.Result as ViewResult;
-				SerializedView view = result.View as SerializedView;
+				var result = filterContext.Result as ViewResult;
+				var view = result.View as SerializedView;
 
 				switch ((ResponseType)filterContext.RouteData.Values["responseType"])
 				{
@@ -108,12 +107,13 @@ namespace ManagedFusion.Web.Mvc
 
 					resultX.FollowFrameworkIgnoreAttributes = view.FollowFrameworkIgnoreAttributes;
 					resultX.SerializePublicMembers = view.SerializePublicMembers;
+					resultX.SerializedRootName = view.SerializedRootName;
 
 					foreach (var header in view.SerializedHeader)
 						resultX.SerializedHeader.Add(header.Key, header.Value);
 				}
 			}
-			else if (filterContext.Result is ISerializableActionResult && filterContext.Result.GetType() != typeof(SerializedResult))
+			else if (filterContext.Result is ISerializableActionResult && !typeof(SerializedResult).IsAssignableFrom(filterContext.Result.GetType()))
 			{
 				ISerializableActionResult result = filterContext.Result as ISerializableActionResult;
 

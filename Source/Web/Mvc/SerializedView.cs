@@ -27,21 +27,13 @@ namespace ManagedFusion.Web.Mvc
 		/// Gets or sets the content encoding.
 		/// </summary>
 		/// <value>The content encoding.</value>
-		public Encoding ContentEncoding
-		{
-			get;
-			set;
-		}
+		public Encoding ContentEncoding { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type of the content.
 		/// </summary>
 		/// <value>The type of the content.</value>
-		public string ContentType
-		{
-			get;
-			set;
-		}
+		public string ContentType { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [serialize public members].
@@ -49,38 +41,22 @@ namespace ManagedFusion.Web.Mvc
 		/// <value>
 		/// 	<see langword="true"/> if [serialize public members]; otherwise, <see langword="false"/>.
 		/// </value>
-		public bool SerializePublicMembers
-		{
-			get;
-			set;
-		}
+		public bool SerializePublicMembers { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public bool FollowFrameworkIgnoreAttributes
-		{
-			get;
-			set;
-		}
+		public bool FollowFrameworkIgnoreAttributes { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		protected object Model
-		{
-			get;
-			private set;
-		}
+		protected object Model { get; private set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public IDictionary<string, object> SerializedHeader
-		{
-			get;
-			private set;
-		}
+		public IDictionary<string, object> SerializedHeader { get; private set; }
 
 		/// <summary>
 		/// 
@@ -116,12 +92,19 @@ namespace ManagedFusion.Web.Mvc
 			if (serializableObject is ICollection)
 				response.Add("count", ((ICollection)serializableObject).Count);
 
-			var rootName = SerializedRootName;
+			// check if only one object was returned, if it was then we can rename the root
+			if (serializedContent.Count == 1)
+			{
+				var rootName = SerializedRootName;
 
-			if (String.IsNullOrEmpty(rootName))
-				rootName = serializableObject is ICollection ? "collection" : "object";
+				if (String.IsNullOrEmpty(rootName))
+					rootName = serializableObject is ICollection && !(serializableObject is IDictionary<string, object>) ? "collection" : "object";
 
-			response.Add(rootName, serializedContent);
+				response.Add(rootName, serializedContent.Single().Value);
+			}
+			else
+				foreach (var item in serializedContent)
+					response.Add(item);
 
 			return response;
 		}
@@ -177,8 +160,6 @@ namespace ManagedFusion.Web.Mvc
 					response.Write(content);
 				}
 			}
-
-			response.End();
 		}
 
 		#endregion

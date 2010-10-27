@@ -10,14 +10,13 @@ namespace ManagedFusion.Web.Mvc
 	/// <summary>
 	/// 
 	/// </summary>
-	public class ServiceOnlyAttribute : ActionFilterAttribute
+	public class ServiceOnlyAttribute : ServiceAttribute
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServiceOnlyAttribute"/> class.
 		/// </summary>
 		public ServiceOnlyAttribute()
 		{
-			Order = 1;
 		}
 
 		/// <summary>
@@ -26,6 +25,8 @@ namespace ManagedFusion.Web.Mvc
 		/// <param name="filterContext">The filter filterContext.</param>
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+			base.OnActionExecuting(filterContext);
+
 			if (!filterContext.RouteData.Values.ContainsKey("responseType")
 				|| (ResponseType)filterContext.RouteData.Values["responseType"] == ResponseType.Html)
 			{

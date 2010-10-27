@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Web;
-
-using ManagedFusion.Serialization;
-using System.IO;
 
 namespace ManagedFusion.Web.Mvc
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class SerializedResult : ActionResult, ISerializableActionResult
+	public class SerializedResult : ViewResultBase, ISerializableActionResult
 	{
+		protected SerializedResult()
+			: this(null) { }
+
 		public SerializedResult(object model)
 			: this(model, new AutoSerializedView()) { }
 
@@ -24,14 +19,10 @@ namespace ManagedFusion.Web.Mvc
 		/// Initializes a new instance of the <see cref="ServiceResult"/> class.
 		/// </summary>
 		public SerializedResult(object model, SerializedView view)
-			: this()
 		{
-			ModelSerializer = view;
 			Model = model;
-		}
+			ModelSerializer = view;
 
-		protected SerializedResult()
-		{
 			StatusCode = 200;
 			StatusDescription = "OK";
 		}
@@ -39,7 +30,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <summary>
 		/// Gets or sets the model serializer.
 		/// </summary>
-		public virtual SerializedView ModelSerializer
+		public SerializedView ModelSerializer
 		{
 			get;
 			private set;
@@ -52,7 +43,7 @@ namespace ManagedFusion.Web.Mvc
 		public virtual object Model
 		{
 			get;
-			private set;
+			protected set;
 		}
 
 		/// <summary>
@@ -66,15 +57,31 @@ namespace ManagedFusion.Web.Mvc
 		public string StatusDescription { get; set; }
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
+		protected override ViewEngineResult FindView(ControllerContext context)
+		{
+			return new ViewEngineResult(ModelSerializer, new NullViewEngine());
+		}
+
+		/// <summary>
 		/// Executes the result.
 		/// </summary>
 		/// <param name="context">The context.</param>
 		public override void ExecuteResult(ControllerContext context)
 		{
-			if (ModelSerializer == null || ModelSerializer is AutoSerializedView)
+			if (ModelSerializer is AutoSerializedView)
 				UpdateModelSerializer(context);
 
-			WriteResponse(context);
+			ModelSerializer.StatusCode = StatusCode;
+			ModelSerializer.StatusDescription = StatusDescription;
+
+			View = ModelSerializer;
+			ViewData = new ViewDataDictionary(Model);
+
+			base.ExecuteResult(context);
 		}
 
 		/// <summary>
@@ -93,7 +100,7 @@ namespace ManagedFusion.Web.Mvc
 			if (responseType == ResponseType.None)
 				responseType = ServiceHelper.GetResponseType(context);
 
-			var view = ModelSerializer as SerializedView;
+			var view = ModelSerializer;
 
 			if (view == null)
 				view = new AutoSerializedView();
@@ -121,34 +128,17 @@ namespace ManagedFusion.Web.Mvc
 					break;
 			}
 
-			if (ModelSerializer is SerializedView && view != null)
+			if (ModelSerializer is SerializedView)
 			{
 				var resultX = (ModelSerializer as SerializedView);
 
 				resultX.FollowFrameworkIgnoreAttributes = view.FollowFrameworkIgnoreAttributes;
 				resultX.SerializePublicMembers = view.SerializePublicMembers;
+				resultX.SerializedRootName = view.SerializedRootName;
 
 				foreach (var header in view.SerializedHeader)
 					resultX.SerializedHeader.Add(header.Key, header.Value);
 			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="context"></param>
-		private void WriteResponse(ControllerContext context)
-		{
-			if (context == null)
-				throw new ArgumentNullException("context");
-
-			HttpResponseBase response = context.HttpContext.Response;
-
-			ModelSerializer.StatusCode = StatusCode;
-			ModelSerializer.StatusDescription = StatusDescription;
-
-			if (Model != null)
-				ModelSerializer.Render(new ViewContext(context, ModelSerializer, new ViewDataDictionary(Model), new TempDataDictionary(), response.Output), response.Output);
 		}
 	}
 }
