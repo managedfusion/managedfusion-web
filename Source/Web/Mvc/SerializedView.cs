@@ -155,10 +155,7 @@ namespace ManagedFusion.Web.Mvc
 				string content = GetContent();
 
 				if (content != null)
-				{
-					response.AppendHeader("Content-Length", content.Length.ToString());
 					response.Write(content);
-				}
 			}
 		}
 
