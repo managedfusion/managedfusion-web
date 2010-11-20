@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 
 using  ManagedFusion.Web.Mvc.Controls;
 
-namespace ManagedFusion.Web.Mvc.Handlers
+namespace ManagedFusion.Web.Handlers
 {
 	/// <summary>
 	/// Captcha image stream HttpModule. Retrieves CAPTCHA objects from cache, renders them to memory, 

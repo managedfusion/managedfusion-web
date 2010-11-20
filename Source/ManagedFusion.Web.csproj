@@ -118,7 +118,7 @@
     <Compile Include="Web\Mvc\DefaultAttribute.cs" />
     <Compile Include="Web\Mvc\Extensions\Controller.cs" />
     <Compile Include="Web\Mvc\Extensions\HtmlHelper.cs" />
-    <Compile Include="Web\Mvc\Handlers\CaptchaImageHandler.cs" />
+    <Compile Include="Web\Handlers\CaptchaImageHandler.cs" />
     <Compile Include="Web\Mvc\HttpGetOnlyAttribute.cs" />
     <Compile Include="Web\Mvc\HttpPostOnlyAttribute.cs" />
     <Compile Include="Web\Mvc\ISerializableActionResult.cs" />
