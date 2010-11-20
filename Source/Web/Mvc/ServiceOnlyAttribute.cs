@@ -17,6 +17,7 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public ServiceOnlyAttribute()
 		{
+			DefaultResponseType = ResponseType.Json;
 		}
 
 		/// <summary>
