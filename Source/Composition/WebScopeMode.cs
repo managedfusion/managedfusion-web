@@ -1,4 +1,4 @@
-﻿namespace ManagedFusion.Web.Composition
+﻿namespace System.ComponentModel.Composition
 {
     public enum WebScopeMode
     {

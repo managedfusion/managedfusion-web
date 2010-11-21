@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
+using System.ComponentModel.Composition;
 
 namespace ManagedFusion.Web.Composition
 {
