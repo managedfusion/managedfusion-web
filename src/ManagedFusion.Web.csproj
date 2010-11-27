@@ -128,7 +128,7 @@
     <Compile Include="Web\Mvc\ISerializableActionResult.cs" />
     <Compile Include="Web\Mvc\ISerializableExceptionResult.cs" />
     <Compile Include="Web\Mvc\JavaScriptCallbackResult.cs" />
-    <Compile Include="Web\Mvc\JsonResult.cs" />
+    <Compile Include="Web\Mvc\JsonView.cs" />
     <Compile Include="Web\Mvc\LowercaseRoute.cs" />
     <Compile Include="Web\Mvc\MethodNotAllowedResult.cs" />
     <Compile Include="Web\Mvc\NameAttribute.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Web\Mvc\ServiceOnlyAttribute.cs" />
     <Compile Include="Web\Mvc\StopwatchAttribute.cs" />
     <Compile Include="Web\Mvc\UnsupportedMediaTypeResult.cs" />
-    <Compile Include="Web\Mvc\XmlResult.cs" />
+    <Compile Include="Web\Mvc\XmlView.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -112,11 +112,11 @@ namespace ManagedFusion.Web.Mvc
 					break;
 
 				case ResponseType.Json:
-					ModelSerializer = new JsonResult();
+					ModelSerializer = new JsonView();
 					break;
 
 				case ResponseType.Xml:
-					ModelSerializer = new XmlResult();
+					ModelSerializer = new XmlView();
 					break;
 
 				case ResponseType.Csv:

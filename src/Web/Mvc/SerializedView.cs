@@ -156,7 +156,7 @@ namespace ManagedFusion.Web.Mvc
 				string content = GetContent();
 
 				if (content != null)
-					response.Write(content);
+					writer.Write(content);
 			}
 		}
 

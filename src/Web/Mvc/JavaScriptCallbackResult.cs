@@ -12,7 +12,7 @@ namespace ManagedFusion.Web.Mvc
 	/// <summary>
 	/// 
 	/// </summary>
-	public class JavaScriptCallbackResult : JsonResult
+	public class JavaScriptCallbackResult : JsonView
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JavaScriptResult"/> class.

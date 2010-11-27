@@ -85,11 +85,11 @@ namespace ManagedFusion.Web.Mvc
 						break;
 
 					case ResponseType.Json:
-						result.View = new JsonResult();
+						result.View = new JsonView();
 						break;
 
 					case ResponseType.Xml:
-						result.View = new XmlResult();
+						result.View = new XmlView();
 						break;
 
 					case ResponseType.Csv:

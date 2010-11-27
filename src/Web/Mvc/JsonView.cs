@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
 
 using ManagedFusion.Serialization;
 
 namespace ManagedFusion.Web.Mvc
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class XmlResult : SerializedView
+	public class JsonView : SerializedView
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="XmlResult"/> class.
+		/// Initializes a new instance of the <see cref="JsonResult"/> class.
 		/// </summary>
-		public XmlResult()
+		public JsonView()
 		{
-			ContentType = "text/xml";
+			ContentType = "application/json";
 		}
 
 		/// <summary>
@@ -26,7 +19,7 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		protected internal override string ContentFileExtension
 		{
-			get { return "xml"; }
+			get { return "json"; }
 		}
 
 		/// <summary>
@@ -35,7 +28,7 @@ namespace ManagedFusion.Web.Mvc
 		/// <returns></returns>
 		protected internal override string GetContent()
 		{
-			XmlSerializer xmlSerializer = new XmlSerializer {
+			JsonSerializer jsonSerializer = new JsonSerializer {
 				CheckForObjectName = true,
 				MaxSerializableLevelsSupported = null
 			};
@@ -45,12 +38,9 @@ namespace ManagedFusion.Web.Mvc
 				FollowFrameworkIgnoreAttributes = FollowFrameworkIgnoreAttributes
 			};
 
-			var response = BuildResponse(Model, serializer.FromObject(Model, xmlSerializer));
+			var response = BuildResponse(Model, serializer.FromObject(Model, jsonSerializer));
 
-			Dictionary<string, object> wrapper = new Dictionary<string, object>();
-			wrapper.Add("response", response);
-
-			return xmlSerializer.Serialize(wrapper);
+			return jsonSerializer.Serialize(response);
 		}
 	}
 }
