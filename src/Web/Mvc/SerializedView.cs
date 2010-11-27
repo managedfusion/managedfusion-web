@@ -95,10 +95,11 @@ namespace ManagedFusion.Web.Mvc
 			// check if only one object was returned, if it was then we can rename the root
 			if (serializedContent.Count == 1)
 			{
-				var rootName = SerializedRootName;
+				var rootObj = serializedContent.Single();
+				var rootName = rootObj.Key;
 
-				if (String.IsNullOrEmpty(rootName))
-					rootName = serializableObject is ICollection && !(serializableObject is IDictionary<string, object>) ? "collection" : "object";
+				if (!String.IsNullOrWhiteSpace(SerializedRootName))
+					rootName = SerializedRootName;
 
 				response.Add(rootName, serializedContent.Single().Value);
 			}
