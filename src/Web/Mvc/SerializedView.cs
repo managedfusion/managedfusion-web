@@ -101,7 +101,7 @@ namespace ManagedFusion.Web.Mvc
 				if (!String.IsNullOrWhiteSpace(SerializedRootName))
 					rootName = SerializedRootName;
 
-				response.Add(rootName, serializedContent.Single().Value);
+				response.Add(rootName, rootObj.Value);
 			}
 			else
 				foreach (var item in serializedContent)
