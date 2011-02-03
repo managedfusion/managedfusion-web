@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<metadata>
+		<id>ManagedFusion.Web</id>
+		<version>3.5.7</version>
+		<title>Managed Fusion Web</title>
+		<authors>Nick Berardi</authors>
+		<owners>Managed Fusion, LLC</owners>
+		<description>Managed Fusion Web contains a bunch of useful extensions for MVC and uses the a light weight serialization for JSON, XML, CSV to create REST API's.</description>
+		<summary>Managed Fusion Web contains a bunch of useful extensions for MVC and uses the a light weight serialization for JSON, XML, CSV to create REST API's.</summary>
+		<language>en-US</language>
+		<projectUrl>https://github.com/managedfusion/managedfusion-web</projectUrl>
+		<licenseUrl>https://github.com/managedfusion/managedfusion-web/raw/master/LICENSE.txt</licenseUrl>
+		<iconUrl>https://github.com/managedfusion/managedfusion-web/raw/master/nuget/ManagedFusion.Logo.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<tags>managedfusion web .net40</tags>
+		<dependencies>
+			<dependency id="ManagedFusion" version="(1.0,)" /> 
+		</dependencies>
+	</metadata>
+</package>
