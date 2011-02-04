@@ -56,7 +56,7 @@
 
 	<Target Name="Build" DependsOnTargets="SetVersion">
 		<TeamCityProgressMessage Text="Building Projects" />
-		<MSBuild Projects="@(MainProjects)" Targets="Rebuild" Properties="Configuration=Release">
+		<MSBuild Projects="@(MainProjects)" Targets="Rebuild" Properties="Configuration=Release" />
 	</Target>
 
 	<Target Name="Package" DependsOnTargets="Test">
