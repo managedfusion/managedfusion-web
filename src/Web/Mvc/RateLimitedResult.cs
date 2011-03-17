@@ -2,24 +2,18 @@
 using System.Web.Mvc;
 using System.Net;
 
+
 namespace ManagedFusion.Web.Mvc
 {
-	public class HttpBasicAuthenticationResult : ActionResult
+	public class RateLimitedResult : ActionResult
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BasicAuthenticationResult"/> class.
 		/// </summary>
 		/// <param name="realm">The realm.</param>
-		public HttpBasicAuthenticationResult(string realm)
+		public RateLimitedResult()
 		{
-			Realm = realm;
 		}
-
-		/// <summary>
-		/// Gets or sets the realm.
-		/// </summary>
-		/// <value>The realm.</value>
-		public string Realm { get; set; }
 
 		/// <summary>
 		/// Enables processing of the result of an action method by a custom type that inherits from <see cref="T:System.Web.Mvc.ActionResult"/>.
@@ -36,12 +30,8 @@ namespace ManagedFusion.Web.Mvc
 			var response = context.HttpContext.Response;
 
 			response.Clear();
-			response.StatusCode = (int)HttpStatusCode.Unauthorized;
-			response.StatusDescription = "Unauthorized";
-			response.AppendHeader("WWW-Authenticate", "Basic realm=\"" + Realm + "\"");
-			response.ContentType = "text/html";
-
-			response.Write("<html><head><title>Unauthorized</title></head><h1>Unauthorized</h1></html>");
+			response.StatusCode = (int)HttpStatusCode.RequestTimeout;
+			response.StatusDescription = "Request Timeout";
 
 			response.End();
 		}

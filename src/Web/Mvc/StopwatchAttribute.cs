@@ -25,7 +25,7 @@ namespace ManagedFusion.Web.Mvc
 			var httpContext = filterContext.HttpContext;
 			var response = httpContext.Response;
 
-			response.AddHeader("X-Stopwatch", _stopwatch.Elapsed.ToString());
+			response.AddHeader("X-Runtime", _stopwatch.Elapsed.ToString());
 		}
 	}
 }

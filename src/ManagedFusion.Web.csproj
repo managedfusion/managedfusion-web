@@ -130,6 +130,8 @@
     <Compile Include="Web\Mvc\ServiceHelper.cs" />
     <Compile Include="Web\Mvc\ServiceOnlyAttribute.cs" />
     <Compile Include="Web\Mvc\StopwatchAttribute.cs" />
+    <Compile Include="Web\Mvc\RateLimitAttribute.cs" />
+    <Compile Include="Web\Mvc\RateLimitedResult.cs" />
     <Compile Include="Web\Mvc\UnsupportedMediaTypeResult.cs" />
     <Compile Include="Web\Mvc\XmlView.cs" />
   </ItemGroup>
