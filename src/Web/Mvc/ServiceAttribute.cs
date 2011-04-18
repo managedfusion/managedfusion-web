@@ -57,7 +57,9 @@ namespace ManagedFusion.Web.Mvc
 		/// <param name="filterContext">The filter context.</param>
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			if (filterContext != null && filterContext.Exception != null && ExceptionResult != null)
+			if (filterContext != null 
+				&& filterContext.Exception != null 
+				&& ExceptionResult != null)
 			{
 				var result = Activator.CreateInstance(ExceptionResult) as ISerializableExceptionResult;
 				result.ExceptionMessage = filterContext.Exception.Message;
@@ -65,8 +67,8 @@ namespace ManagedFusion.Web.Mvc
 
 				if (filterContext.Exception is HttpException)
 				{
-					result.StatusCode = (filterContext.Exception as HttpException).GetHttpCode();
-					result.StatusDescription = ((HttpStatusCode)result.StatusCode).ToString().FromPascalCase();
+					result.ModelSerializer.StatusCode = (filterContext.Exception as HttpException).GetHttpCode();
+					result.ModelSerializer.StatusDescription = ((HttpStatusCode)result.ModelSerializer.StatusCode).ToString().FromPascalCase();
 				}
 
 				filterContext.Result = result as ActionResult;
@@ -102,16 +104,7 @@ namespace ManagedFusion.Web.Mvc
 				}
 
 				if (result.View is SerializedView && view != null)
-				{
-					var resultX = (result.View as SerializedView);
-
-					resultX.FollowFrameworkIgnoreAttributes = view.FollowFrameworkIgnoreAttributes;
-					resultX.SerializePublicMembers = view.SerializePublicMembers;
-					resultX.SerializedRootName = view.SerializedRootName;
-
-					foreach (var header in view.SerializedHeader)
-						resultX.SerializedHeader.Add(header.Key, header.Value);
-				}
+					ServiceHelper.CopyProperties(view, (SerializedView)result.View);
 			}
 			else if (filterContext.Result is ISerializableActionResult && !typeof(SerializedResult).IsAssignableFrom(filterContext.Result.GetType()))
 			{
@@ -123,10 +116,8 @@ namespace ManagedFusion.Web.Mvc
 					case ResponseType.Json:
 					case ResponseType.Xml:
 					case ResponseType.Csv:
-						filterContext.Result = new SerializedResult(result.Model) {
-							StatusCode = result.StatusCode,
-							StatusDescription = result.StatusDescription
-						};
+						var resultX = new SerializedResult(result.Model);
+						ServiceHelper.CopyProperties(result.ModelSerializer, resultX.ModelSerializer);
 						break;
 
 					case ResponseType.Html:

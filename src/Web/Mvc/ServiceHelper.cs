@@ -8,6 +8,20 @@ namespace ManagedFusion.Web.Mvc
 {
 	public static class ServiceHelper
 	{
+		public static void CopyProperties(SerializedView fromResult, SerializedView toResult)
+		{
+			toResult.FollowFrameworkIgnoreAttributes = fromResult.FollowFrameworkIgnoreAttributes;
+			toResult.SerializePublicMembers = fromResult.SerializePublicMembers;
+			toResult.SerializedRootName = fromResult.SerializedRootName;
+			toResult.StatusCode = fromResult.StatusCode;
+			toResult.StatusDescription = fromResult.StatusDescription;
+			toResult.ContentType = fromResult.ContentType;
+			toResult.ContentEncoding = fromResult.ContentEncoding;
+
+			foreach (var header in fromResult.SerializedHeader)
+				toResult.SerializedHeader.Add(header.Key, header.Value);
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
