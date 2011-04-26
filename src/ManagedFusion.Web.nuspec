@@ -17,5 +17,9 @@
 		<dependencies>
 			<dependency id="ManagedFusion" version="(1.0,)" /> 
 		</dependencies>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web.Mvc" targetFramework="net40" />
+		</frameworkAssemblies>
 	</metadata>
 </package>
