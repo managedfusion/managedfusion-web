@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ECE32E40-EF71-443C-AA4C-988ABEE74D74}"
 	ProjectSection(SolutionItems) = preProject
 		ManagedFusion.Web.msbuild = ManagedFusion.Web.msbuild
-		nuget\ManagedFusion.Web.nuspec = nuget\ManagedFusion.Web.nuspec
 	EndProjectSection
 EndProject
 Global

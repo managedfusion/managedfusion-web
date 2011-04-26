@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ManagedFusion.Web")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Managed Fusion Web contains a bunch of useful extensions for MVC and uses the a light weight serialization for JSON, XML, CSV to create REST API's.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Managed Fusion")]
+[assembly: AssemblyCompany("Managed Fusion, LLC")]
 [assembly: AssemblyProduct("ManagedFusion.Web")]
-[assembly: AssemblyCopyright("Copyright © Managed Fusion 2010")]
+[assembly: AssemblyCopyright("Copyright © Managed Fusion 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

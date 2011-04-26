@@ -2,10 +2,10 @@
 <package>
 	<metadata>
 		<id>ManagedFusion.Web</id>
-		<version>1.0.0</version>
+		<version>$version$</version>
 		<title>Managed Fusion Web</title>
 		<authors>Nick Berardi</authors>
-		<owners>nberardi</owners>
+		<owners>Managed Fusion, LLC</owners>
 		<description>Managed Fusion Web contains a bunch of useful extensions for MVC and uses the a light weight serialization for JSON, XML, CSV to create REST API's.</description>
 		<summary>Managed Fusion Web contains a bunch of useful extensions for MVC and uses the a light weight serialization for JSON, XML, CSV to create REST API's.</summary>
 		<language>en-US</language>
