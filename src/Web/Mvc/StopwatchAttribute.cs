@@ -6,21 +6,18 @@ namespace ManagedFusion.Web.Mvc
 {
 	public class StopwatchAttribute : ActionFilterAttribute
 	{
-		private Stopwatch _stopwatch;
-
-		public StopwatchAttribute()
-		{
-			_stopwatch = new Stopwatch();
-		}
-
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			_stopwatch.Start();
+			var stopwatch = new Stopwatch();
+			filterContext.HttpContext.Items["Stopwatch"] = stopwatch;
+
+			stopwatch.Start();
 		}
 
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			_stopwatch.Stop();
+			var stopwatch = (Stopwatch)filterContext.HttpContext.Items["Stopwatch"];
+			stopwatch.Stop();
 
 			var httpContext = filterContext.HttpContext;
 			var response = httpContext.Response;
