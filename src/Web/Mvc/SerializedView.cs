@@ -142,7 +142,7 @@ namespace ManagedFusion.Web.Mvc
 
 			response.Cache.SetExpires(DateTime.Today.AddDays(-1D));
 			response.AppendHeader("X-Robots-Tag", "noindex, follow, noarchive, nosnippet");
-			response.AppendHeader("Content-Disposition", String.Format("inline; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
+			response.AppendHeader("Content-Disposition", String.Format("attachment; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
 
 			if (!request.IsSecureConnection)
 			{
