@@ -20,9 +20,11 @@ namespace ManagedFusion.Web.Mvc
 		{
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
+		protected internal override string DispositionType
+		{
+			get { return "inline"; }
+		}
+
 		protected internal override string ContentFileExtension
 		{
 			get { return "xml"; }

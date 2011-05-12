@@ -115,10 +115,9 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		protected internal virtual string GetContent() { return null; }
 
-		/// <summary>
-		/// 
-		/// </summary>
 		protected internal virtual string ContentFileExtension { get { return null; } }
+
+		protected internal virtual string DispositionType { get { return "attachment"; } }
 
 		#region IView Members
 
@@ -142,14 +141,10 @@ namespace ManagedFusion.Web.Mvc
 
 			response.Cache.SetExpires(DateTime.Today.AddDays(-1D));
 			response.AppendHeader("X-Robots-Tag", "noindex, follow, noarchive, nosnippet");
-			response.AppendHeader("Content-Disposition", String.Format("attachment; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
+			response.AppendHeader("Content-Disposition", String.Format(DispositionType + "; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
 
 			if (!request.IsSecureConnection)
-			{
 				response.Cache.SetCacheability(HttpCacheability.NoCache);
-				response.AppendHeader("Pragma", "no-cache");
-				response.AppendHeader("Cache-Control", "private, no-cache, must-revalidate, no-store, pre-check=0, post-check=0, max-stale=0");
-			}
 
 			if (Model != null)
 			{
