@@ -139,7 +139,6 @@ namespace ManagedFusion.Web.Mvc
 			if (ContentEncoding != null)
 				response.ContentEncoding = ContentEncoding;
 
-			response.Cache.SetExpires(DateTime.Today.AddDays(-1D));
 			response.AppendHeader("X-Robots-Tag", "noindex, follow, noarchive, nosnippet");
 			response.AppendHeader("Content-Disposition", String.Format(DispositionType + "; filename={0}.{1}; creation-date={2:r}", action, ContentFileExtension, DateTime.UtcNow));
 
