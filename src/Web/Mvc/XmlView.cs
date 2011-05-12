@@ -18,7 +18,6 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public XmlView()
 		{
-			ContentType = "text/xml";
 		}
 
 		/// <summary>
@@ -27,6 +26,12 @@ namespace ManagedFusion.Web.Mvc
 		protected internal override string ContentFileExtension
 		{
 			get { return "xml"; }
+		}
+
+		public override string ContentType
+		{
+			get { return "text/xml"; }
+			set { ; }
 		}
 
 		/// <summary>

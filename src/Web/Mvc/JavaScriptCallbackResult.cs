@@ -19,8 +19,6 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public JavaScriptCallbackResult()
 		{
-			ContentType = "text/javascript";
-			Callback = "callback";
 		}
 
 		/// <summary>
@@ -39,6 +37,12 @@ namespace ManagedFusion.Web.Mvc
 		protected internal override string ContentFileExtension
 		{
 			get { return "js"; }
+		}
+
+		public override string ContentType
+		{
+			get { return "text/javascript"; }
+			set { ; }
 		}
 
 		/// <summary>

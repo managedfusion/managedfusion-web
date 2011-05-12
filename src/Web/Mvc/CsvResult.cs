@@ -13,7 +13,6 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public CsvResult()
 		{
-			ContentType = "application/csv";
 		}
 
 		/// <summary>
@@ -22,6 +21,12 @@ namespace ManagedFusion.Web.Mvc
 		protected internal override string ContentFileExtension
 		{
 			get { return "csv"; }
+		}
+
+		public override string ContentType
+		{
+			get { return "application/csv"; }
+			set { ; }
 		}
 
 		/// <summary>

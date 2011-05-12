@@ -33,7 +33,7 @@ namespace ManagedFusion.Web.Mvc
 		/// Gets or sets the type of the content.
 		/// </summary>
 		/// <value>The type of the content.</value>
-		public string ContentType { get; set; }
+		public virtual string ContentType { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [serialize public members].

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Diagnostics;
 
 namespace ManagedFusion.Web.Mvc
@@ -22,7 +21,7 @@ namespace ManagedFusion.Web.Mvc
 			var httpContext = filterContext.HttpContext;
 			var response = httpContext.Response;
 
-			response.AddHeader("X-Runtime", _stopwatch.Elapsed.ToString());
+			response.AddHeader("X-Runtime", stopwatch.Elapsed.ToString());
 		}
 	}
 }

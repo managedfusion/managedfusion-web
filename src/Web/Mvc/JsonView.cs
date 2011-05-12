@@ -11,7 +11,6 @@ namespace ManagedFusion.Web.Mvc
 		/// </summary>
 		public JsonView()
 		{
-			ContentType = "application/json";
 		}
 
 		/// <summary>
@@ -20,6 +19,12 @@ namespace ManagedFusion.Web.Mvc
 		protected internal override string ContentFileExtension
 		{
 			get { return "json"; }
+		}
+
+		public override string ContentType
+		{
+			get { return "application/json"; }
+			set { ; }
 		}
 
 		/// <summary>
